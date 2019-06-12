@@ -9,12 +9,14 @@ class LoginApi:
         self.cluster = Cluster()
         self.session = self.cluster.connect('oms')
         self.user_lookup_stmt = self.session.prepare("SELECT *  FROM users where username = ? and password = ? ALLOW FILTERING;")
+        self.is_admin_stmt = self.session.prepare("SELECT isAdmin from users where username = ?")
 
-    def checkUserPass(self,username,password):
-        print("sesssion created")
+    def isUser(self,username,password):
         row = self.session.execute(self.user_lookup_stmt,[username,password])
-        print(row.current_rows())
-        z = row is None
-        print(z)
+        return  row.current_rows != []
 
-    
+    def isAdmin(self,username):
+        row = self.session.execute(self.is_admin_stmt,[username])
+        if not row:
+            return False
+        return row[0].isadmin

@@ -1,3 +1,5 @@
+---
+
 test_name: Check Oms API server is running
 
 # ...and each test has one or more stages (e.g. an HTTP request)
@@ -14,3 +16,66 @@ stages:
       status_code: 200
       body:
         status: server is running
+
+---
+test_name: Check Oms API isUser endpoint invalid user
+stages:
+  - name: check invalid user
+    # Define the request to be made...
+    request:
+      url: http://localhost:5000/isUser
+      json:
+        username: "example"
+        password: "example"
+      method: POST
+      headers:
+        content-type: application/json
+
+    # ...and the expected response code and body
+    response:
+      status_code: 200
+      body:
+        valid: false
+        isAdmin: false
+        
+---
+test_name: Check Oms API isUser endpoint valid admin user
+stages:
+  - name: check invalid user
+    # Define the request to be made...
+    request:
+      url: http://localhost:5000/isUser
+      json:
+        username: "admin"
+        password: "Admin!123"
+      method: POST
+      headers:
+        content-type: application/json
+
+    # ...and the expected response code and body
+    response:
+      status_code: 200
+      body:
+        valid: true
+        isAdmin: true
+
+---
+test_name: Check Oms API isUser endpoint valid admin user
+stages:
+  - name: check invalid user
+    # Define the request to be made...
+    request:
+      url: http://localhost:5000/isUser
+      json:
+        username: "agent"
+        password: "Agent!123"
+      method: POST
+      headers:
+        content-type: application/json
+
+    # ...and the expected response code and body
+    response:
+      status_code: 200
+      body:
+        valid: true
+        isAdmin: false

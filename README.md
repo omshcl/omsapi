@@ -7,5 +7,30 @@
 - `pip install flask`
 - `pip install tavern[pytest]`
 - `pip install cassandra-driver`
+
+# endpoints
+## isUser
+`/isUser`
+Method: POST
+```
+{
+"username":"user",
+"password":"pass"
+}
+```
+response
+```
+{
+"valid": false,
+"isAdmin": false
+}
+```
+## test
+`/test`
+Method: GET
+```
+{   "status":"server is running"}
+```
+
 # running tests
-`py.test test.tavern.yaml  -v`
+`python test.py`
