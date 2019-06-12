@@ -1,0 +1,16 @@
+test_name: Check Oms API server is running
+
+# ...and each test has one or more stages (e.g. an HTTP request)
+stages:
+  - name: Make sure http server is running
+
+    # Define the request to be made...
+    request:
+      url: http://localhost:5000/test
+      method: GET
+
+    # ...and the expected response code and body
+    response:
+      status_code: 200
+      body:
+        status: server is running
